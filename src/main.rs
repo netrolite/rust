@@ -1,41 +1,34 @@
-#[derive(Clone, Debug)]
-struct Rect {
-    width: u32,
-    height: u32,
+enum IpAddrKind {
+    V4,
+    V6,
 }
 
-impl Rect {
-    fn area(&self) -> u32 {
-        self.width * self.height
-    }
-
-    fn can_hold(&self, rect: Rect) -> bool {
-        self.width >= rect.width && self.height >= rect.height
-    }
-
-    fn square(size: u32) -> Rect {
-        Rect {
-            width: size,
-            height: size,
-        }
-    }
+struct IpAddr {
+    kind: IpAddrKind,
+    addr: [u8; 4],
 }
 
 fn main() {
-    let rect1 = Rect {
-        width: 30,
-        height: 50,
-    };
-    let rect2 = Rect {
-        width: 31,
-        height: 40,
+    let addr = IpAddr {
+        kind: IpAddrKind::V4,
+        addr: [127, 0, 0, 1],
     };
 
-    let rect3 = Rect::square(10);
-    println!("rect3: {rect3:#?}");
+    let ip_version = match addr.kind {
+        IpAddrKind::V4 => "ipv4",
+        IpAddrKind::V6 => "ipv6",
+    };
+    println!("IP version: {ip_version}");
 
-    println!("area1: {}", rect1.area());
-    println!("area2: {}", rect2.area());
+    let mut addr_str = String::new();
+    for (i, part) in addr.addr.iter().enumerate() {
+        let part = part.to_string();
+        addr_str.push_str(part.as_str());
 
-    println!("Can rect1 hold rect2: {}", rect1.can_hold(rect2));
+        if i != addr.addr.iter().len() - 1 {
+            addr_str.push_str(".");
+        }
+    }
+
+    println!("IP address: {addr_str}");
 }
