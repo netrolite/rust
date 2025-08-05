@@ -1,21 +1,41 @@
-use std::io;
-
-fn main() {
-    println!("Enter the nth fibonacci number you want to generate");
-    let mut seq_num = String::new();
-    io::stdin()
-        .read_line(&mut seq_num)
-        .expect("Could not read line");
-
-    let seq_num: u32 = seq_num.trim().parse().expect("Not a u32 value");
-    let fib = gen_fib_num(seq_num);
-    println!("Result: {fib}");
+#[derive(Clone, Debug)]
+struct Rect {
+    width: u32,
+    height: u32,
 }
 
-// 1 1 2 3 5 8 13
-fn gen_fib_num(seq_num: u32) -> u64 {
-    if seq_num <= 2 {
-        return 1;
+impl Rect {
+    fn area(&self) -> u32 {
+        self.width * self.height
     }
-    return gen_fib_num(seq_num - 2) + gen_fib_num(seq_num - 1);
+
+    fn can_hold(&self, rect: Rect) -> bool {
+        self.width >= rect.width && self.height >= rect.height
+    }
+
+    fn square(size: u32) -> Rect {
+        Rect {
+            width: size,
+            height: size,
+        }
+    }
+}
+
+fn main() {
+    let rect1 = Rect {
+        width: 30,
+        height: 50,
+    };
+    let rect2 = Rect {
+        width: 31,
+        height: 40,
+    };
+
+    let rect3 = Rect::square(10);
+    println!("rect3: {rect3:#?}");
+
+    println!("area1: {}", rect1.area());
+    println!("area2: {}", rect2.area());
+
+    println!("Can rect1 hold rect2: {}", rect1.can_hold(rect2));
 }
