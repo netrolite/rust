@@ -1,34 +1,25 @@
-enum IpAddrKind {
-    V4,
-    V6,
-}
+use core::time;
+use std::thread::sleep;
 
-struct IpAddr {
-    kind: IpAddrKind,
-    addr: [u8; 4],
-}
+use rand::Rng;
 
 fn main() {
-    let addr = IpAddr {
-        kind: IpAddrKind::V4,
-        addr: [127, 0, 0, 1],
-    };
-
-    let ip_version = match addr.kind {
-        IpAddrKind::V4 => "ipv4",
-        IpAddrKind::V6 => "ipv6",
-    };
-    println!("IP version: {ip_version}");
-
-    let mut addr_str = String::new();
-    for (i, part) in addr.addr.iter().enumerate() {
-        let part = part.to_string();
-        addr_str.push_str(part.as_str());
-
-        if i != addr.addr.iter().len() - 1 {
-            addr_str.push_str(".");
+    loop {
+        let dice_roll = roll_dice();
+        match dice_roll {
+            3 => println!("you got a cool ass hat"),
+            7 => println!("the cool ass hat was removed from your inventory (if you had one)"),
+            _ => (), // nothing happens if you don't roll a 3 or a 7
         }
+        sleep(time::Duration::from_millis(500));
     }
+}
 
-    println!("IP address: {addr_str}");
+fn move_player(distance: u8) {
+    println!("Player moved by {distance} meters.")
+}
+
+fn roll_dice() -> u8 {
+    let mut rng = rand::rng();
+    rng.random_range(1..=7)
 }
