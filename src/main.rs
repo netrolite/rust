@@ -1,25 +1,29 @@
-use core::time;
-use std::thread::sleep;
-
-use rand::Rng;
-
 fn main() {
-    loop {
-        let dice_roll = roll_dice();
-        match dice_roll {
-            3 => println!("you got a cool ass hat"),
-            7 => println!("the cool ass hat was removed from your inventory (if you had one)"),
-            _ => (), // nothing happens if you don't roll a 3 or a 7
-        }
-        sleep(time::Duration::from_millis(500));
+    #[derive(Debug)]
+    enum Cell {
+        Text(String),
+        Int(i32),
+        BigInt(i64),
+        Float(f64),
     }
-}
 
-fn move_player(distance: u8) {
-    println!("Player moved by {distance} meters.")
-}
+    let mut row = vec![
+        Cell::Text(String::from("my text")),
+        Cell::BigInt(30945782345087),
+    ];
 
-fn roll_dice() -> u8 {
-    let mut rng = rand::rng();
-    rng.random_range(1..=7)
+    if true {
+        row.push(Cell::Float(10.0));
+        row.push(Cell::Int(10));
+    }
+
+    for el in &row {
+        if let Cell::BigInt(val) = el {
+            println!("The element is a big ass integer: {val}!");
+        } else {
+            println!("The element is something other than a big ass integer!");
+        }
+    }
+
+    dbg!(row);
 }
