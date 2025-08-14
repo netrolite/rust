@@ -31,4 +31,15 @@ fn main() {
     for (key, val) in &db {
         println!("{key}: {val}");
     }
+
+    let key1 = String::from("red");
+    let key2 = String::from("sdf");
+
+    let inserted_value1 = db.entry(&key1).or_insert(70);
+    println!("first insertion result: {inserted_value1}");
+
+    let inserted_value2 = db.entry(&key2).or_insert(70);
+    println!("second insertion result: {inserted_value2}");
+
+    println!("db: {db:?}");
 }
